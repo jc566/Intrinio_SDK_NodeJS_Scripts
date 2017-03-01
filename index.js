@@ -26,11 +26,18 @@ app.get('/stocks', function(data, response) {
 	var sym = data.query.sym.toUpperCase()	//ensure that the query is uppercase
 
 	//this is for collection of keys
-	var keys = data.query.keys 
+	var keys = data.query.keys.toLowerCase() //ensure that query is lowercase
 	//create empty object
 	var temp = {} 
 
+	console.log(sym)
+	console.log(keys)
 	
+	/*Need to make a map/dictionary to handle these incoming keys
+keys must come in as lower case
+must be in array
+find a way to split based on commas
+*/
 	intrinio.ticker(sym) //make an api call with sym
 	.on('complete', function(tickerData,tickerResponse){
 		if(tickerData) {//if there is ticker data then ...
