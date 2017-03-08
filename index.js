@@ -6,12 +6,15 @@ var intrinio = require('intrinio-client')(username, password)
 var express = require('express')
 var app = express()
 
+//this is a worst case scenario, simple test
 app.get('/ping', function(data, response) {
 	console.log('recieved ping, sending pong')
 	response.json('pong')
 })
 /************************************************
 Get stock information by providing ticker symbol*
+						*
+'/stocks' is the url path extension		*
 						*
 Example: /stocks?sym=aapl 			*
 Example for Keys: 				*
@@ -26,14 +29,21 @@ app.get('/stocks', function(data, response) {
 	var sym = data.query.sym.toUpperCase()	//ensure that the query is uppercase
 
 	//this is for collection of keys
-	var keys = data.query.keys.toLowerCase() //ensure that query is lowercase
+	//var keys = data.query.keys.toLowerCase() //ensure that query is lowercase
 	//create empty object
 	var temp = {} 
 
 	console.log(sym)
-	console.log(keys)
+	//console.log(keys)
 	
-	/*Need to make a map/dictionary to handle these incoming keys
+/*
+ALSO!!!!
+The user will likely be searching by legal name NOT ticker symbol.
+THIS block is taking in ticker symbol so we can have a '/searchTicker' area
+that will allow users to search by company name, and retrive a ticker symbol, then
+use all the functionanlity within this code to provide the information
+FINALLY!!!
+Need to make a map/dictionary to handle these incoming keys
 keys must come in as lower case
 must be in array
 find a way to split based on commas
@@ -48,11 +58,34 @@ find a way to split based on commas
 		console.log(tickerData.legal_name)
 		console.log(tickerData.short_description)
 	
-		temp = tickerData.short_description
+		temp = tickerData.ticker
 		response.json(temp) //send response to client (this can be "browser" or another file like php file)
-		}
-	})
-})
+		}//end of 'if(tickerData)'
+	})//end of 'intrinio.ticker(sym)'
+})//end of '/stocks'
+
+
+/*
+Get News for a company
+*/
+app.get('/news', function(Data,Response){
+	var sym = Data.query.sym.toUpperCase()
+	
+	var news = {}
+
+	intrinio.news(sym) //make an api call with sym
+	.on('complete', function(newsData, newsResponse){
+		if(newsData){
+	console.log(newsData)
+	
+		
+	news = newsData
+	Response.json(news)
+}
+	
+	})//end of 'intrinio.news(sym)'
+})//end of '/news'
+
 
 //the '9090' can be replaced with the proper server we are using
 app.listen(9090, function(){
