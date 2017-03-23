@@ -45,7 +45,8 @@ app.get('/stocks', function(data, response) {
 	High:'',
 	Low:''
 	}; 
-
+        
+        
 	console.log(sym)
 	//console.log(keys)
 	
@@ -65,7 +66,7 @@ find a way to split based on commas
 	.on('complete', function(tickerData,tickerResponse){
 		if(tickerData) {//if there is ticker data then ...
 				
-                console.log("MOTHER FUCKER")
+                //console.log("MOTHER FUCKER")
 
 		
 		
