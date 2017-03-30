@@ -12,23 +12,17 @@ use GuzzleHttp\Client;
 //$client = new GuzzleHttp\Client(['base_uri'=> 'http://localhost:9090/stocks?sym=aapl']);
 function getInfo($string){
 
-    //$sym = $_GET['sym'];
+    $sym = $string;
 
 
-    $symname = $string;
+   
 
-    //if(strncasecmp($symname,'requestType',11))
-    //echo(strncasecmp($symname, 'requesttype',11));
     //{
-        //$sym=ltrim($symname,"RequestType:StockInfo:Symbol:");
+  
         
         
+
         
-        
-if($symname[0] == '0' and $symname[1] == '1'){
-        //echo "success1";
-        $sym = trim($symname,"01:");
-        //echo $sym;
 
         
         //Create a request but don't send it immediately
@@ -45,13 +39,14 @@ if($symname[0] == '0' and $symname[1] == '1'){
 
         //echo ($getInfo);
         //echo "\nHELLO WORLD\n";
+        
         return $getInfo;
         //return "testing it";
         //sendMessage($getInfo);
         //}
-    }
+    
 
-if($symname[0] == '0' and $symname[1] == '2'){
+/*if($symname[0] == '0' and $symname[1] == '2'){
         //echo "success2";
         $sym = trim($symname,"02:");
         //echo $sym;
@@ -74,7 +69,7 @@ if($symname[0] == '0' and $symname[1] == '2'){
         //return "testing it";
         //sendMessage($getInfo);
         //}
-    }
+    }*/
 
         
 }

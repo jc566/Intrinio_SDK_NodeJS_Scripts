@@ -28,23 +28,36 @@ Example for Keys: 				*
 app.get('/stocks', function(data, response) {
 
 	//this is the variable that holds user input
-	var sym = data.query.sym.toUpperCase()	//ensure that the query is uppercase
-
+	//var sym = data.query.sym.toUpperCase()	//ensure that the query is uppercase
+        var sym = data.query.sym.toUpperCase()
 	//this is for collection of keys
 	//var keys = data.query.keys.toLowerCase() //ensure that query is lowercase
 	//create empty object
 	var stockInfo = {
-	Ticker: '',
-	Name: '',
-	SE: '',
-	CEO: '',
-	URL: '',
-	Desc: '',
-	Open: '',
-	Close: '',
-	High:'',
-	Low:''
+	"Ticker": '',
+	"Name": '',
+	"SE": '',
+	"CEO": '',
+	"URL": '',
+	"Desc": '',
+        "Open":[],
+        "Close":[],
+        "High":[],
+        "Low":[]
+            
+        
+        
+        
 	}; 
+        
+        
+ /*
+  *             {
+                "Open":'',
+                "High":'',
+                "Low":'',
+                "Close":''
+                }*/
         
         
 	console.log(sym)
@@ -67,7 +80,7 @@ find a way to split based on commas
 		if(tickerData) {//if there is ticker data then ...
 				
                 //console.log("MOTHER FUCKER")
-
+                
 		
 		
 		stockInfo.Ticker = tickerData.ticker
@@ -76,6 +89,7 @@ find a way to split based on commas
 		stockInfo.Name = tickerData.legal_name
 		stockInfo.SE = tickerData.stock_exchange
 		stockInfo.Desc = tickerData.short_description
+                
 		
 		//response.json(stockInfo) //send response to client (this can be "browser" or another file like php file)
 		
@@ -86,10 +100,32 @@ find a way to split based on commas
 	.on('complete', function(priceData,priceResponse){
 		if(priceData){
 		
-		stockInfo.Open = priceData.data[0].open
-		stockInfo.High = priceData.data[0].high
-		stockInfo.Low = priceData.data[0].low
-		stockInfo.Close = priceData.data[0].close
+                var openVals = []
+                var closeVals = []
+                var highVals = []
+                var lowVals = []
+                
+                for(var i = 0; i < 2;i++){
+                openVals.push(priceData.data[i].open)
+                closeVals.push(priceData.data[i].close)
+                highVals.push(priceData.data[i].high)
+                lowVals.push(priceData.data[i].low)
+                }
+                stockInfo.Open = openVals
+                stockInfo.Low = lowVals
+                stockInfo.Close = closeVals
+                stockInfo.High = highVals
+                
+                /*
+		stockInfo.Current[0].Open = priceData.data[0].open
+		stockInfo.Current[0].High = priceData.data[0].high
+		stockInfo.Current[0].Low = priceData.data[0].low
+		stockInfo.Current[0].Close = priceData.data[0].close*/
+                
+		//stockInfo.High = priceData.data[0].high
+		//stockInfo.Low = priceData.data[0].low
+		
+		//stockInfo.Close = priceData.data[0].close
 		response.json(stockInfo)
 		}//end of 'if(priceData)'
 	})//end of 'intrinio.prices(sym)'
